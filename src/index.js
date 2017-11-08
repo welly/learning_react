@@ -1,18 +1,30 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import YTSearch from 'youtube-api-search';
 import SearchBar from './components/search_bar';
 
 const API_KEY = 'AIzaSyBubHtngYFHjN8MG9fovgEyXX2bW-Mql_U';
  
 // Create a new component.
-const App = function() {
-	return (
-		<div>
-			<SearchBar />
-		</div>
-	);
-}
+class App extends Component {
 
-// Take this component's generated html and put it on the page.
+	constructor(props) {
+		super(props);
+
+		this.state = { videos: [] };
+
+		YTSearch({key: API_KEY, term: 'surfboards'}, (videos) => {
+			this.setState({ videos });
+		});
+	}
+
+	render() {
+		return (
+			<div>
+				<SearchBar />
+			</div>
+		);
+	}
+}
 
 ReactDOM.render(<App />, document.querySelector('.container'));
